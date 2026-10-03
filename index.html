@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Drinks Compatibility Test</title>
+<style>
+:root{--bg:#fff6ee;--card:#ffffff;--ink:#2a1a1f;--muted:#7a6269;--accent:#e4457b;--accent2:#ff9a5a;--line:#f1d9d3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1217;--card:#2a1c23;--ink:#fbeee9;--muted:#bfa3ab;--line:#40292f}}
+:root[data-theme="dark"]{--bg:#1c1217;--card:#2a1c23;--ink:#fbeee9;--muted:#bfa3ab;--line:#40292f}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Poppins",system-ui,-apple-system,Segoe UI,sans-serif;display:flex;justify-content:center;padding:20px 16px}
+.wrap{width:100%;max-width:480px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px 22px;box-shadow:0 12px 40px rgba(228,69,123,.12);animation:pop .35s ease}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.emoji{font-size:56px;display:block;text-align:center;animation:wob 2.4s ease-in-out infinite}
+@keyframes wob{50%{transform:rotate(-8deg) scale(1.08)}}
+h1{font-size:26px;line-height:1.2;text-align:center;margin:12px 0 8px}
+h2{font-size:20px;line-height:1.3;margin:6px 0 16px}
+p{color:var(--muted);line-height:1.55;margin:0 0 16px}
+.center{text-align:center}
+.bar{height:6px;background:var(--line);border-radius:6px;margin-bottom:18px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+button,input,textarea{font:inherit}
+.btn{width:100%;border:0;border-radius:16px;padding:15px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font-weight:600;font-size:16px;cursor:pointer;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:rgba(228,69,123,.12)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:9px 15px;cursor:pointer}
+.chip.sel{border-color:var(--accent);background:var(--accent);color:#fff}
+label.l{display:block;font-weight:600;font-size:14px;margin:6px 0 8px}
+input[type=text]{width:100%;padding:14px;border-radius:14px;border:2px solid var(--line);background:transparent;color:var(--ink);margin-bottom:16px}
+textarea{width:100%;min-height:130px;padding:14px;border-radius:14px;border:2px solid var(--line);background:transparent;color:var(--ink);margin-bottom:12px;resize:vertical}
+.score{font-size:48px;font-weight:700;text-align:center;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nope{position:relative}
+.small{font-size:13px;text-align:center;margin-top:12px}
+.heart{position:fixed;bottom:-30px;font-size:22px;animation:rise 3s linear forwards;pointer-events:none}
+@keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+
+.night{background:radial-gradient(circle at 50% 30%,#4a1d46,#1a0d1f 70%);border-color:#5b2a57;color:#fff;text-align:center;min-height:430px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.night p{color:#e9c9dd}
+.orb{--p:0;position:relative;width:150px;height:150px;border-radius:50%;margin:22px auto;display:flex;align-items:center;justify-content:center;font-size:58px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;background:conic-gradient(#ff7aa8 calc(var(--p)*1%),rgba(255,255,255,.12) 0);animation:beat 1.3s ease-in-out infinite}
+.orb::before{content:"";position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7a2f66,#2a1230)}
+.orb span{position:relative;filter:drop-shadow(0 0 14px #ff5c93)}
+@keyframes beat{50%{transform:scale(1.06);box-shadow:0 0 50px rgba(255,92,147,.55)}}
+.orb.shake{animation:shk .35s}
+@keyframes shk{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.type{min-height:90px;font-size:19px;line-height:1.6;color:#fff;margin:10px 0 18px}
+.cur::after{content:"|";animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.spark{position:fixed;width:8px;height:8px;border-radius:50%;background:#ff7aa8;box-shadow:0 0 10px #ff7aa8;pointer-events:none;animation:fd .8s forwards;z-index:9}
+@keyframes fd{to{transform:translateY(-24px) scale(0);opacity:0}}
+.cal{border:2px solid var(--line);border-radius:18px;padding:12px;margin-bottom:18px}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.nv{border:0;background:transparent;color:var(--accent);font-size:26px;cursor:pointer;padding:0 10px}
+.nv:disabled{opacity:.25;cursor:default}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.wd{font-style:normal;font-size:12px;color:var(--muted);padding:4px 0}
+.dy{aspect-ratio:1;border:0;border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;font-size:14px}
+.dy:hover:not(:disabled){background:rgba(228,69,123,.15)}
+.dy:disabled{opacity:.25;cursor:default}
+.dy.sel{background:var(--accent);color:#fff;font-weight:600}
+.album-wrap{--p:0;position:relative;width:190px;height:190px;margin:26px auto 30px;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none}
+.album-wrap.shake{animation:shk .35s}
+.vinyl{position:absolute;top:5px;left:0;width:180px;height:180px;border-radius:50%;background:repeating-radial-gradient(circle,#111 0 2px,#202020 2px 4px);transform:translateX(calc(var(--p)*.45px));box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.vinyl::after{content:"";position:absolute;inset:68px;border-radius:50%;background:#ff6b6b;border:3px solid #111}
+.cover{position:absolute;inset:0;width:190px;height:190px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:tilt 2.4s ease-in-out infinite}
+@keyframes tilt{50%{transform:rotate(-3deg) scale(1.03)}}
+.pbar{width:190px;height:6px;border-radius:6px;background:rgba(255,255,255,.15);margin:0 auto 12px;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff7aa8,#ffd23f)}
+.np{display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;margin:16px auto 0;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:12px;text-decoration:none;transition:opacity .3s}
+.np:hover{color:var(--accent)}
+.eq{display:flex;align-items:flex-end;gap:2px;height:12px}
+.eq i{width:3px;background:var(--accent);border-radius:2px;animation:eq 1s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.25s}.eq i:nth-child(3){animation-delay:.5s}
+@keyframes eq{0%,100%{height:3px}50%{height:12px}}
+.spw{margin:16px auto 0;border-radius:14px;overflow:hidden;max-width:100%}
+.spw iframe{display:block;border:0}
+.opt.wrong{animation:shk .35s;opacity:.55}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card" id="app"></div></div>
+<script>
+
+var name = "", step = 0, answers = [], day = "", time = "", drink = "";
+var app = document.getElementById("app");
+
+var quiz = [
+ {q:"Pick your first-drink energy: (there is only one correct answer)", o:["🍸 A classic cocktail, no notes","🍺 Something cold and uncomplicated","🍷 Wine, and a long conversation","🎲 Surprise me, I'd trust you to pick"]},
+ {q:"The perfect drinks date has…", o:["😂 Terrible jokes and good laughs","🎶 Great music and zero small talk","🍟 Excellent snacks (non-negotiable)","🌃 A view and a plan to wander after"]},
+ {q:"Two truths and a lie, how good are you?", o:["🕵️ Undefeated. I can read people","🙈 Awful, I believe everything","🎭 I lie better than I tell the truth"]},
+ {q:"It's 11pm. What happens next?", o:["🏠 Home, I'm a responsible adult","🍕 Late night food mission","💃 One more round, and a dance","🌅 We're now at a diner discussing life"]}
+];
+
+function render(h){app.className="card";app.innerHTML=h;app.style.animation="none";app.offsetHeight;app.style.animation=""}
+function esc(s){return s.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+function intro(){setTrack(0);
+ render('<span class="emoji">🥂</span><h1>Hey you. You\'ve been selected.</h1><p class="center">A very serious, very scientific test to find out how well we\'d do over drinks. Takes 60 seconds. No wrong answers (mostly).</p><label class="l">First, what should I call you?</label><input type="text" id="nm" placeholder="Your name" autocomplete="off"><button class="btn" id="go">Start the test</button>');
+ var i=document.getElementById("nm"),b=document.getElementById("go");
+ b.onclick=function(){name=i.value.trim();if(!name){i.focus();i.style.borderColor="var(--accent)";return}hearts(6);step=0;question()};
+ i.onkeydown=function(e){if(e.key==="Enter")b.click()};
+}
+
+function question(){setTrack(1);
+ var q=quiz[step],pct=Math.round(step/quiz.length*100);
+ var h='<div class="bar"><i style="width:'+pct+'%"></i></div><p style="margin-bottom:4px">Question '+(step+1)+' of '+quiz.length+'</p><h2>'+q.q+'</h2>';
+ q.o.forEach(function(t,i){h+='<button class="opt" data-i="'+i+'">'+t+'</button>'});
+ render(h);
+ [].forEach.call(app.querySelectorAll(".opt"),function(b){b.onclick=function(){
+  var t=b,d=350;
+  if(step===0){t=app.querySelector('.opt[data-i="3"]');if(t!==b){b.classList.add("wrong");d=900}}
+  t.classList.add("sel");answers[step]=t.textContent;
+  setTimeout(function(){step++;step<quiz.length?question():analyzing()},d)}});
+}
+
+function analyzing(){setTrack(2);
+ render('<span class="emoji">🧪</span><h1>Analysing your answers…</h1><p class="center" id="msg">Consulting the drinks experts</p><div class="bar"><i id="pb" style="width:0%"></i></div>');
+ var lines=["Consulting the drinks experts","Checking chemistry levels","Calculating banter potential","Cross-referencing snack preferences"],n=0;
+ var t=setInterval(function(){n++;document.getElementById("pb").style.width=(n*25)+"%";if(n<4)document.getElementById("msg").textContent=lines[n];if(n>=4){clearInterval(t);result()}},650);
+}
+
+function result(){setTrack(3);
+ hearts(14);
+ render('<span class="emoji">🎉</span><h1>Results are in, '+esc(name)+'</h1><div class="score">97%</div><p class="center"><b style="color:var(--ink)">Verdict: dangerously compatible.</b><br>The data says we should absolutely grab drinks, and that you have excellent taste in answers. The only missing variable is <i>when</i>. That\'s where you come in.</p><button class="btn" id="nx">Lock in a time →</button>');
+ document.getElementById("nx").onclick=schedule;
+}
+
+var calY,calM,selTs=0;
+function buildCal(cb){
+ var el=document.getElementById("cal"),now=new Date();now.setHours(0,0,0,0);
+ var max=new Date(now);max.setDate(max.getDate()+60);
+ var first=new Date(calY,calM,1),sd=(first.getDay()+6)%7,dim=new Date(calY,calM+1,0).getDate();
+ var canPrev=(calY>now.getFullYear()||calM>now.getMonth()),canNext=new Date(calY,calM+1,1)<=max;
+ var h='<div class="ch"><button class="nv" id="pv"'+(canPrev?'':' disabled')+'>‹</button><b>'+first.toLocaleString("en",{month:"long",year:"numeric"})+'</b><button class="nv" id="nxm"'+(canNext?'':' disabled')+'>›</button></div><div class="cg">';
+ ["M","T","W","T","F","S","S"].forEach(function(w){h+='<i class="wd">'+w+'</i>'});
+ for(var b=0;b<sd;b++)h+='<i></i>';
+ for(var d=1;d<=dim;d++){var dt=new Date(calY,calM,d),off=dt<=now||dt>max,sel=dt.getTime()===selTs;
+  h+='<button class="dy'+(sel?' sel':'')+'" data-t="'+dt.getTime()+'"'+(off?' disabled':'')+'>'+d+'</button>'}
+ el.innerHTML=h+'</div>';
+ document.getElementById("pv").onclick=function(){calM--;if(calM<0){calM=11;calY--}buildCal(cb)};
+ document.getElementById("nxm").onclick=function(){calM++;if(calM>11){calM=0;calY++}buildCal(cb)};
+ [].forEach.call(el.querySelectorAll(".dy"),function(x){x.onclick=function(){
+  selTs=+x.dataset.t;day=new Date(selTs).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});buildCal(cb);cb()}});
+}
+
+function schedule(){setTrack(3);
+ var days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],times=["Early evening (6–7)","Evening (8–9)","Late-ish (9:30+)"],drinks=["🍸 Cocktails","🍷 Wine","🍺 Beer","🎲 Your pick, I hear you know your drinks"];
+ var h='<h2>Step 2: pick your slot</h2><label class="l">Which day works for you?</label><div id="cal" class="cal"></div><label class="l">What time suits you?</label><div class="chips" id="t">';
+ times.forEach(function(x){h+='<button class="chip" data-v="'+x+'">'+x+'</button>'});
+ h+='</div><label class="l">Your drink of choice?</label><div class="chips" id="r">';
+ drinks.forEach(function(x){h+='<button class="chip" data-v="'+x+'">'+x+'</button>'});
+ h+='</div><button class="btn" id="ok" disabled>Seal the deal 🤝</button>';
+ render(h);
+ var ok=document.getElementById("ok");
+ function bind(id,set){[].forEach.call(document.querySelectorAll("#"+id+" .chip"),function(c){c.onclick=function(){
+  [].forEach.call(document.querySelectorAll("#"+id+" .chip"),function(o){o.classList.remove("sel")});
+  c.classList.add("sel");set(c.dataset.v);ok.disabled=!(day&&time&&drink)}})}
+ var n=new Date();calY=n.getFullYear();calM=n.getMonth();selTs=0;day="";buildCal(function(){ok.disabled=!(day&&time&&drink)});bind("t",function(v){time=v});bind("r",function(v){drink=v});
+ ok.onclick=final;
+}
+
+function final(){setTrack(4);notify();
+ hearts(22);
+ var dr=drink.indexOf("Your pick")>-1?"🎲 Your pick (I hear you know your drinks)":drink;
+ render('<span class="emoji">📝</span><h1>Response noted ✅</h1><p class="center">Your guy has noted your response and will get back to you when his Instagram limit is refreshed 📵😅</p><div style="border:2px dashed var(--line);border-radius:16px;padding:14px;text-align:center;line-height:1.9"><b>📅 '+esc(day)+'</b><br>🕐 '+esc(time)+'<br>'+esc(dr)+'</div><p class="small">Thanks for passing the test, '+esc(name)+' 😉</p>');
+}
+
+function hearts(n){
+ var e=["💖","✨","🥂","🍸","💫"];
+ for(var i=0;i<n;i++)(function(i){setTimeout(function(){
+  var s=document.createElement("span");s.className="heart";s.textContent=e[i%e.length];
+  s.style.left=Math.random()*95+"vw";s.style.fontSize=(16+Math.random()*20)+"px";
+  document.body.appendChild(s);setTimeout(function(){s.remove()},3100)},i*110)})(i);
+}
+
+var NTFY="drinks-7b14899b87cc"; // your private ntfy topic
+var tracks=[
+ {l:"Now playing",t:"The Morning",a:"The Weeknd",id:"6u0dQik0aif7FQlrhycG1L"},
+ {l:"Now playing",t:"Bad Habit",a:"Steve Lacy",id:""},
+ {l:"Now playing",t:"Hotel California",a:"The Eagles",id:"40riOy7x9W7GXjyGp4pjAv"},
+ {l:"Now playing",t:"Summertime in Paris",a:"Jaden",id:"6XNANAB7sFvkfho6bMCp7o"},
+ {l:"Closing track",t:"24 Songs",a:"Playboi Carti",id:"3osgEsFUAwWZtD5EG8iuOk"}
+],curTr=-1,ctl=null,np=document.createElement("a"),spw=document.createElement("div");
+np.className="np";np.target="_blank";np.rel="noopener";
+spw.className="spw";spw.style.display="none";spw.innerHTML='<div id="sp"></div>';
+document.querySelector(".wrap").appendChild(spw);
+document.querySelector(".wrap").appendChild(np);
+function applyTrack(){
+ var k=tracks[curTr];if(!k)return;
+ var on=!!(ctl&&k.id);
+ spw.style.display=on?"block":"none";np.style.display=on?"none":"flex";
+ if(on){try{ctl.loadUri("spotify:track:"+k.id)}catch(e){}}
+ np.href="https://open.spotify.com/search/"+encodeURIComponent(k.t+" "+k.a);
+ np.innerHTML='<span class="eq"><i></i><i></i><i></i></span><span>'+k.l+' · '+k.t+' — '+k.a+' ↗</span>';
+ np.style.opacity=1;
+}
+function setTrack(i){
+ if(i===curTr)return;curTr=i;np.style.opacity=0;
+ setTimeout(applyTrack,250);
+}
+function tryPlay(){if(ctl)try{ctl.play()}catch(e){}}
+window.onSpotifyIframeApiReady=function(api){
+ try{api.createController(document.getElementById("sp"),{uri:"spotify:track:"+tracks[0].id,width:"100%",height:80},function(c){ctl=c;applyTrack()})}catch(e){}
+};
+(function(){var j=document.createElement("script");j.src="https://open.spotify.com/embed/iframe-api/v1";j.async=true;j.onerror=function(){};document.body.appendChild(j)})();
+var sent=false;
+function notify(){
+ if(sent)return;sent=true;
+ var msg=name+" said YES 🎉 | Date: "+day+" | Time: "+time+" | Drink: "+drink;
+ try{fetch("https://ntfy.sh/"+NTFY,{method:"POST",body:msg,headers:{"Title":"Drinks test result","Tags":"tada"}}).catch(function(){})}catch(e){}
+}
+
+function lock(){setTrack(0);
+ render('');app.className="card night";
+ app.innerHTML='<p style="letter-spacing:2px;font-size:12px;text-transform:uppercase">1 new drop</p><h1 style="color:#fff">A new album just dropped</h1><div class="album-wrap" id="orb"><div class="vinyl"></div><svg class="cover" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd23f"/><stop offset="1" stop-color="#ff6b6b"/></linearGradient></defs><rect width="200" height="200" fill="url(#g)"/><circle cx="100" cy="105" r="70" fill="#fff" opacity=".25"/><g stroke="#1a0d1f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><line x1="140" y1="54" x2="116" y2="94" fill="none"/><circle cx="141" cy="52" r="8" fill="#7ed957"/><path d="M45 70H155L100 140Z" fill="#8be9fd"/><line x1="100" y1="140" x2="100" y2="174" fill="none"/><line x1="70" y1="176" x2="130" y2="176" fill="none"/><rect x="63" y="77" width="30" height="15" rx="6" fill="#1a0d1f"/><rect x="107" y="77" width="30" height="15" rx="6" fill="#1a0d1f"/><line x1="93" y1="83" x2="107" y2="83" fill="none"/><path d="M83 104Q100 119 117 104" fill="none"/></g><g font-family="Impact,Arial Black,sans-serif" text-anchor="middle" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"><text x="100" y="32" font-size="26">ONE DRINK?</text><text x="100" y="193" font-size="19">FAMOUS LAST WORDS</text></g></svg></div><div class="pbar"><i id="pb"></i></div><p id="hint">Hold the record to play ▶</p>';
+ var o=document.getElementById("orb"),h=document.getElementById("hint"),pb=document.getElementById("pb"),p=0,on=false,done=false;
+ function tick(){
+  if(done)return;
+  p+=on?1.8:-3;p=Math.max(0,Math.min(100,p));
+  o.style.setProperty("--p",p);pb.style.width=p+"%";
+  h.textContent=p>66?"Almost there…":p>25?"Keep holding… 🎵":"Hold the record to play ▶";
+  if(on&&navigator.vibrate&&p%20<2)try{navigator.vibrate(8)}catch(e){}
+  if(p>=100){done=true;unlocked();return}
+  requestAnimationFrame(tick);
+ }
+ o.onpointerdown=function(e){e.preventDefault();on=true};
+ ["pointerup","pointerleave","pointercancel"].forEach(function(t){o.addEventListener(t,function(){
+  if(on&&p<100&&p>10){o.classList.add("shake");setTimeout(function(){o.classList.remove("shake")},350)}on=false})});
+ requestAnimationFrame(tick);
+}
+
+function unlocked(){tryPlay();
+ hearts(24);
+ app.innerHTML='<div class="type cur" id="ty"></div><button class="btn" id="c" style="display:none">Okay, I\'m curious 👀</button>';
+ var lines="Hi you 👋\n\nYou have been selected to go out for drinks with Abhishek 🥂\n\nBut first, a tiny test…",i=0,ty=document.getElementById("ty");
+ (function nx(){
+  if(i<=lines.length){ty.innerHTML=esc(lines.slice(0,i)).replace(/\n/g,"<br>");i++;setTimeout(nx,lines[i-2]==="\n"?250:45)}
+  else{ty.classList.remove("cur");var b=document.getElementById("c");b.style.display="block";b.onclick=intro}
+ })();
+}
+
+document.addEventListener("pointermove",function(e){
+ if(Math.random()>.35)return;
+ var d=document.createElement("span");d.className="spark";d.style.left=e.clientX+"px";d.style.top=e.clientY+"px";
+ document.body.appendChild(d);setTimeout(function(){d.remove()},800)});
+
+lock();
+</script>
+</body>
+</html>
