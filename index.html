@@ -85,6 +85,7 @@ textarea{width:100%;min-height:130px;padding:14px;border-radius:14px;border:2px 
 </head>
 <body>
 <div class="wrap"><div class="card" id="app"></div></div>
+<form name="drinks-response" method="POST" data-netlify="true" hidden><input name="name"><input name="date"><input name="time"><input name="drink"></form>
 <script>
 
 var name = "", step = 0, answers = [], day = "", time = "", drink = "";
@@ -213,6 +214,7 @@ var sent=false;
 function notify(){
  if(sent)return;sent=true;
  var msg=name+" said YES 🎉 | Date: "+day+" | Time: "+time+" | Drink: "+drink;
+ try{fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({"form-name":"drinks-response",name:name,date:day,time:time,drink:drink}).toString()}).catch(function(){})}catch(e){}
  try{fetch("https://ntfy.sh/"+NTFY,{method:"POST",body:msg,headers:{"Title":"Drinks test result","Tags":"tada"}}).catch(function(){})}catch(e){}
 }
 
